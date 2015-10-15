@@ -1,0 +1,20 @@
+<html>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="style.css">
+	<body></body>
+	
+	<script src="moment.js"></script>
+	<script src="BioHacking.js"></script>
+	<script src="ListView.js"></script>
+	<script>
+	  Biohacking.TrackFormBuilder.prototype = new Biohacking.FormBuilder;
+
+
+    var formBuilder = new Biohacking.TrackFormBuilder;
+    var editForm = new Biohacking.EditFormBuilder;
+    document.body.appendChild(  formBuilder.render().el );
+    document.getElementById('formEdit').appendChild(editForm.render().el);
+</script>
+

@@ -1,0 +1,68 @@
+
+.row {
+  cursor: pointer;
+  display : flex;
+  border-bottom-width: 1px;
+  border-bottom-color:gray;
+  border-bottom-style:solid;
+}
+
+.row div{
+  margin-right: 1em;
+}
+
+.kind {
+  color: #990000;
+}
+
+/*.kind:hover {*/
+/*  color: #FFFFFF;*/
+/*}*/
+
+.tags{
+  color: gray;
+  font-size: 0.9em;
+}
+
+.date {
+  color: gray;
+  font-size: 0.7em;
+}
+
+.row a{
+  width:100%; 
+  height:100%;
+  text-decoration:none;
+  color: inherit;
+}
+
+.selected{
+  
+  background-color:#990000;
+}
+
+.selected a{
+  color: #FFFFFF;
+}
+
+/*.row:hover{
+   background-color:#990000;
+   color: #FFFFFF;
+}*/
+
+/*TODO:Remover*/
+.main {
+    padding-left: 20px;
+}
+
+.display {
+  text-align:center;
+}
+
+.form{
+  background-color:#990000;
+}
+
+.form-control{
+  display : flex;
+}
