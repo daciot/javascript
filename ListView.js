@@ -13,10 +13,22 @@ Biohacking.Fields.ListView = function(){
           this.selectedRow = row.dataRow;
           this.deselectAll(row);
         },
+        scope: this,
+      },
+      changeRow: {
+        handler: function(row) {
+          row.fireEvent('changeRow');
+        },
         scope: this
       }
     });
     return row.render(obj);
+  }
+  
+  this.getRow = function(){
+    return this.rowList.filter(function(row){
+         return row.dataRow == this.selectedRow;
+    }.bind(this))[0];
   }
   
   this.removeRow = function(){
@@ -27,6 +39,18 @@ Biohacking.Fields.ListView = function(){
       }
       return !isRemove;
     }.bind(this));
+  }
+  
+   this.updateRow = function(json){
+     var changed = false;
+     Object.keys(json).forEach(function(key){
+       if(this.selectedRow[key] != json[key]){
+         this.selectedRow[key] = json[key];
+         changed = true;
+       }
+    }.bind(this));
+    
+    if(changed) this.getRow().fireEvent('changeRow'); 
   }
   
   this.deselectAll = function(r) {
@@ -80,6 +104,12 @@ Biohacking.Fields.ListView.Row = function(){
           this.select();
         },
         scope: this
+      },
+      changeRow: {
+        handler: function(dataGroup) {
+          dataGroup.fireEvent('changeRow');
+        },
+        scope: this
       }
     });
     return dataGroup.render(obj, groupConfig);
@@ -112,6 +142,12 @@ Biohacking.Fields.ListView.DataGroup = function(){
       getDataRow: {
         handler: function(e) {
           this.fireEvent("getDataRow");
+        },
+        scope: this
+      },
+      changeRow: {
+        handler: function(data) {
+          data.fireEvent('changeRow');
         },
         scope: this
       }

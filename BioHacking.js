@@ -39,6 +39,7 @@ Biohacking.Fields.Field = function() {
     if(value){
       this.el.setAttribute('value', value);
       this.el.value =  value;  
+      this.value = value;
     }
     
   }
@@ -200,6 +201,7 @@ Biohacking.Fields.Display = function() {
   
   this.setValue = function(value){
     this.el.textContent = value;
+    this.value = value;
   }
   
   this.render = function(config) {
@@ -247,6 +249,7 @@ Biohacking.Fields.Date = function() {
   
   this.setValue = function(value){
     this._oldEl.value = value;
+    this.value = value;
   }
   
   this.render = function(field) {
@@ -358,7 +361,6 @@ Biohacking.FormBuilder = function(){
 };
 
 Biohacking.EditFormBuilder = function(obj){
-  
   this._oldRender = this.render;
   
   this.render = function(layout){
@@ -398,8 +400,8 @@ Biohacking.EditFormBuilder = function(obj){
             type: 'Button',
              events:{
   		       click:{
-    		       handler: function(evt){     		        
-                 var lv = formBuilder.findField('ListView');
+    		       handler: function(evt){    
+    		         var lv = formBuilder.findField('ListView');
                  lv.removeRow();
               },
               scope: this
@@ -410,8 +412,9 @@ Biohacking.EditFormBuilder = function(obj){
            type: 'Button',
            events:{
   		       click:{
-    		       handler: function(evt){     		        
-                 alert(JSON.stringify(this.toJSON()));
+    		       handler: function(evt){
+    		         var lv = formBuilder.findField('ListView');
+                 lv.updateRow(this.toJSON());
               },
               scope: this
   		      }
