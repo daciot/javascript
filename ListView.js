@@ -19,6 +19,16 @@ Biohacking.Fields.ListView = function(){
     return row.render(obj);
   }
   
+  this.removeRow = function(){
+    this.rowList = this.rowList.filter(function(row){
+      var isRemove = this.selectedRow == row.dataRow;
+      if(isRemove){
+        this.el.removeChild(row.el);
+      }
+      return !isRemove;
+    }.bind(this));
+  }
+  
   this.deselectAll = function(r) {
     this.rowList.forEach(function(row) {
       if(row !== r) row.deselect();

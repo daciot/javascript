@@ -395,7 +395,16 @@ Biohacking.EditFormBuilder = function(obj){
           type: 'Text'
        },{
             name: 'Delete',
-            type: 'Button'
+            type: 'Button',
+             events:{
+  		       click:{
+    		       handler: function(evt){     		        
+                 var lv = formBuilder.findField('ListView');
+                 lv.removeRow();
+              },
+              scope: this
+  		      }
+           }
          },{
            name: 'Done',
            type: 'Button',
