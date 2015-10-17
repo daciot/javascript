@@ -1,4 +1,7 @@
 
+.btn-default{
+  display:flex;
+}
 .row {
   cursor: pointer;
   display : flex;
@@ -24,7 +27,7 @@
   font-size: 0.9em;
 }
 
-.date {
+.date-grid {
   color: gray;
   font-size: 0.7em;
 }
@@ -65,4 +68,50 @@
 
 .form-control{
   display : flex;
+}
+
+.field {
+  margin-right : 1em;
+  margin-top : 1em;  
+  margin-bottom : 1em;  
+  margin-left: 1em;
+  width: 90%;
+  padding: 3px 3px;
+}
+.date{
+  margin-right : 1em;
+  margin-top : 1em;  
+  margin-bottom : 1em;  
+  margin-left: 1em;
+  width: 90%;
+  
+}
+
+.date-input{
+  width: 100%;
+  padding: 3px 3px;
+}
+
+.input-group-addon, .input-group-btn{
+  width:initial;
+}
+
+.display-class{
+  margin:0 auto;
+  margin-bottom : 1em;  
+  margin-left: 1em;
+  color:white;
+}
+.button-container{
+  margin-right : 1em;
+  margin-top : 1em;  
+  display:inline-flex;
+  margin-bottom : 1em;  
+  margin-left: 1em;
+}
+
+.button{
+  margin-right: 1em;
+  
+  
 }

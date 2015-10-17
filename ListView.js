@@ -10,14 +10,14 @@ Biohacking.Fields.ListView = function(){
     row.register({
       getDataRow: {
         handler: function(row) {
-          this.selectedRow = row.dataRow;
+          this.selectedRow = row;
           this.deselectAll(row);
         },
         scope: this,
       },
       changeRow: {
         handler: function(row) {
-          row.fireEvent('changeRow');
+          // row.fireEvent('changeRow');
         },
         scope: this
       }
@@ -27,13 +27,13 @@ Biohacking.Fields.ListView = function(){
   
   this.getRow = function(){
     return this.rowList.filter(function(row){
-         return row.dataRow == this.selectedRow;
+         return row.dataRow == this.selectedRow.dataRow;
     }.bind(this))[0];
   }
   
   this.removeRow = function(){
     this.rowList = this.rowList.filter(function(row){
-      var isRemove = this.selectedRow == row.dataRow;
+      var isRemove = this.selectedRow.dataRow == row.dataRow;
       if(isRemove){
         this.el.removeChild(row.el);
       }
@@ -41,16 +41,23 @@ Biohacking.Fields.ListView = function(){
     }.bind(this));
   }
   
-   this.updateRow = function(json){
-     var changed = false;
-     Object.keys(json).forEach(function(key){
-       if(this.selectedRow[key] != json[key]){
-         this.selectedRow[key] = json[key];
-         changed = true;
-       }
-    }.bind(this));
+  // this.updateRow = function(json){
+  //   var changed = false;
+  //   Object.keys(json).forEach(function(key){
+  //     if(this.selectedRow.dataRow[key] != json[key]){
+  //       this.selectedRow.dataRow[key] = json[key];
+  //       debugger;
+  //       changed = true;
+  //     }
+  //   }.bind(this));
     
-    if(changed) this.getRow().fireEvent('changeRow'); 
+  //   if(changed) this.getRow().fireEvent('changeRow'); 
+  // }
+  
+  this.updateRow = function(json){
+    this.rowList.forEach(function(row){
+      this.selectedRow.updateDataGroup(json);
+    }.bind(this)); 
   }
   
   this.deselectAll = function(r) {
@@ -95,6 +102,13 @@ Biohacking.Fields.ListView.Row = function(){
     this.el.setAttribute("class", "row selected");
   }
   
+  this.updateDataGroup = function(json){
+    this.dataGroupList.forEach(function(dataGroup){
+      dataGroup.updateData(json);
+    })  
+    
+  }
+  
   this.createDataGroup = function(obj, groupConfig){
     var dataGroup = new Biohacking.Fields.ListView.DataGroup;
      dataGroup.register({
@@ -105,7 +119,7 @@ Biohacking.Fields.ListView.Row = function(){
         },
         scope: this
       },
-      changeRow: {
+      changeDataGroup: {
         handler: function(dataGroup) {
           dataGroup.fireEvent('changeRow');
         },
@@ -145,14 +159,22 @@ Biohacking.Fields.ListView.DataGroup = function(){
         },
         scope: this
       },
-      changeRow: {
+      changeData: {
         handler: function(data) {
-          data.fireEvent('changeRow');
+          data.fireEvent('changeDataGroup');
         },
         scope: this
       }
     });
     return data.render(objField);
+  }
+  
+  this.updateData = function(json){
+    this.dataList.forEach(function(data){
+      if(data.el.id)
+        data.setValue(json[data.el.id]);
+    })  
+    
   }
   
   this.render = function(obj, config){
@@ -163,7 +185,7 @@ Biohacking.Fields.ListView.DataGroup = function(){
       function(keyData){
         
         var objConfig = { 
-          key: keyData,
+          name: keyData,
           value: obj[keyData],
           config: config.fields[keyData] //TODO:fazer verificação quando nao existir data?
         };
@@ -187,11 +209,19 @@ Biohacking.Fields.ListView.Data = function(){
   this.el = document.createElement("div");
   this.link = document.createElement("a");
   
+  this.setValue =function(value){
+    this.link.innerHTML = value;
+  }
+  
+  this.mandatory = function(event){
+    this.value = event.target.value;
+  }
+  
   this.render = function(objConfig){
     
     var config = objConfig.config;
     var value = config.format ? config.format(objConfig.value) : objConfig.value;
-    
+    this.el.setAttribute('id', objConfig.name);
     
     this.link.innerHTML = value;
     this.link.addEventListener('click', function(e){
