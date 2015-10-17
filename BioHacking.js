@@ -173,9 +173,6 @@ Biohacking.Fields.Text = function() {
     this.value = event.target.value;
   }.bind(this);
   
-  
-  
-  // this.el.addEventListener("keyup", mandatory.bind(this) );
   this.el.addEventListener("change", this.mandatory );
   
   this.render = function(field) {

@@ -14,12 +14,6 @@ Biohacking.Fields.ListView = function(){
           this.deselectAll(row);
         },
         scope: this,
-      },
-      changeRow: {
-        handler: function(row) {
-          // row.fireEvent('changeRow');
-        },
-        scope: this
       }
     });
     return row.render(obj);
@@ -40,19 +34,6 @@ Biohacking.Fields.ListView = function(){
       return !isRemove;
     }.bind(this));
   }
-  
-  // this.updateRow = function(json){
-  //   var changed = false;
-  //   Object.keys(json).forEach(function(key){
-  //     if(this.selectedRow.dataRow[key] != json[key]){
-  //       this.selectedRow.dataRow[key] = json[key];
-  //       debugger;
-  //       changed = true;
-  //     }
-  //   }.bind(this));
-    
-  //   if(changed) this.getRow().fireEvent('changeRow'); 
-  // }
   
   this.updateRow = function(json){
     this.rowList.forEach(function(row){
@@ -118,12 +99,6 @@ Biohacking.Fields.ListView.Row = function(){
           this.select();
         },
         scope: this
-      },
-      changeDataGroup: {
-        handler: function(dataGroup) {
-          dataGroup.fireEvent('changeRow');
-        },
-        scope: this
       }
     });
     return dataGroup.render(obj, groupConfig);
@@ -158,12 +133,6 @@ Biohacking.Fields.ListView.DataGroup = function(){
           this.fireEvent("getDataRow");
         },
         scope: this
-      },
-      changeData: {
-        handler: function(data) {
-          data.fireEvent('changeDataGroup');
-        },
-        scope: this
       }
     });
     return data.render(objField);
@@ -187,13 +156,12 @@ Biohacking.Fields.ListView.DataGroup = function(){
         var objConfig = { 
           name: keyData,
           value: obj[keyData],
-          config: config.fields[keyData] //TODO:fazer verificação quando nao existir data?
+          config: config.fields[keyData]
         };
         
         return this.createData(objConfig);
       }, this)
       
-      //TODO:
       this.dataList
               .map(function(data){ return data.el})
               .forEach(this.el.appendChild, this.el);
